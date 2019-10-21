@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: mss-wesign-config-ui
+  profiles:
+    active:
+    - dev

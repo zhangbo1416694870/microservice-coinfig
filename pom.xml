@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>cn.zhangbo</groupId>
+	<artifactId>microservice-config</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>microservice-config</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<scca.version>1.1.1-RELEASE</scca.version>
+		<spring-boot-dependencies.version>1.5.6.RELEASE</spring-boot-dependencies.version>
+		<spring-cloud-dependencies.version>Dalston.SR3</spring-cloud-dependencies.version>
+		<mysql-connector-verision>5.1.43</mysql-connector-verision>
+		<junit-version>3.8.1</junit-version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Import dependency management from Spring Boot -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- Import dependency management from Spring Cloud -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- flyway 覆盖默认的3.x版本依赖 -->
+			<dependency>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-core</artifactId>
+				<version>${flyway.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit-version}</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- scca ui -->
+			<dependency>
+				<groupId>com.didispace</groupId>
+				<artifactId>scca-ui</artifactId>
+				<version>${scca.version}</version>
+			</dependency>
+			<!-- scca rest风格接口，专做数据转发 -->
+			<dependency>
+				<groupId>com.didispace</groupId>
+				<artifactId>scca-rest</artifactId>
+				<version>${scca.version}</version>
+			</dependency>
+			<!-- scca 持久化到数据库 -->
+			<dependency>
+				<groupId>com.didispace</groupId>
+				<artifactId>scca-persistence-db</artifactId>
+				<version>${scca.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<modules>
+		<module>config-ui</module>
+		<module>config-server</module>
+	</modules>
+</project>
+
+
+
+

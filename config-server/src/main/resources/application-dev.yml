@@ -1,0 +1,54 @@
+server:
+  port: 1954
+flyway:
+  url: 
+  user: 
+  password: 
+  schemas: 
+  baseline-on-migrate: true
+spring:
+  jooq:
+    sql-dialect: mysql
+  cloud:
+    config:
+      server:
+        prefix: /config-dev
+        git:
+        #随便填一个git方式，实际不会使用，主要是为了不然工程报错
+          uri: 
+          search-paths: /{application}
+          username: 
+          password: 
+       #为了能够动态刷新属性 
+  rabbitmq:
+    host: 
+    port:
+    username: 
+    password: 
+    # Mysql 数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: ${flyway.url}/signit_config
+    username: ${flyway.user}
+    password: ${flyway.password}
+    initialize: true
+encrypt:
+  key: test
+# 日志配置
+logging:
+  level:
+    org.apache.coyote.http11.Http11InputBuffer: INFO
+    org.apache.coyote.http11.Http11OutputBuffer: INFO
+security:
+  user:
+    name: user
+    password: password
+#将配置服务器注册到eureka上面去
+eureka:
+  instance:
+     prefer-ip-address: true
+     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+  client:
+    registry-fetch-interval-seconds: 5
+    serviceUrl:
+      defaultZone: http://${security.user.name}:${security.user.password}@mss-eureka01.ns.me:5683/eureka/   

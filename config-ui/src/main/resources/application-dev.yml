@@ -1,0 +1,32 @@
+server:
+  port: 7617
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: 
+    username: 
+    password: 
+    initialize: true
+logging:
+  level:
+    org.apache.coyote.http11.Http11InputBuffer: INFO
+    org.apache.coyote.http11.Http11OutputBuffer: INFO
+security:
+  user:
+    name: user
+    password: password
+scca:
+  rest:
+    context-path: /xhr
+  ui:
+    use-embed-scca-rest-server: true
+  config-server:
+    username: ${security.user.name}
+    password: ${security.user.password}
+eureka:
+  instance:
+    hostname: mss-config-ui.ns.me
+    instance-id: ${random.uuid}(${spring.application.name}::${eureka.instance.hostname}:${server.port})
+  client:
+    serviceUrl:
+      defaultZone: http://${security.user.name}:${security.user.password}@mss-eureka01.ns.me:5683/eureka/

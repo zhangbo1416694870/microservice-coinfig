@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.zhangbo</groupId>
+		<artifactId>microservice-config</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>config-server</artifactId>
+	<name>config-server</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<fastjson.version>1.2.15</fastjson.version>
+	</properties>
+	<dependencies>
+		<!--引入 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-config-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
+		</dependency>
+		<!-- 处理配置的注解 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- 自动生成数据库表相关代码 -->
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<!-- fastjson依赖 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
+		<!-- spring boot jdbc依赖 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<!-- 插件运行:flyway:mir -->
+					<groupId>org.flywaydb</groupId>
+					<artifactId>flyway-maven-plugin</artifactId>
+					<configuration>
+						<user>${数据库登录账号}</user>
+						<password>${数据库密码}</password>
+						<driver>com.mysql.jdbc.Driver</driver>
+						<url>jdbc:mysql://${数据库访问地址}</url>
+						<schemas>${配置表名}</schemas>
+						<baseDir>db/migration</baseDir>
+						<locations>filesystem:microservice-config/config-server/src/main/resources/db/migration</locations>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!-- <plugin>
+				自动生成数据库表相关代码插件
+				<groupId>org.jooq</groupId>
+				<artifactId>jooq-codegen-maven</artifactId>
+				<version>3.9.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					日志级别:WARN,DEBUG,ERROR,FATAL,INFO,TRACE
+					<logging>WARN</logging>
+					<jdbc>
+						数据库连接信息：地址，用户名，密码
+						<driver>com.mysql.jdbc.Driver</driver>
+						<url>jdbc:mysql://${数据库访问地址}</url>
+						<user>${数据库登录账号}</user>
+						<password>${数据库密码}</password>
+					</jdbc>
+					<generator>
+						<generate>
+							设置额外生成数据库表的映射对象
+							<pojos>true</pojos>
+						</generate>
+						<database>
+							<name>org.jooq.util.mysql.MySQLDatabase</name>
+							只需要生成property这个表就行了
+							<includes>property</includes>
+							需要排除的表
+							<excludes> schema_version </excludes>
+							<inputCatalog>public</inputCatalog>
+							指定数据库名称
+							<inputSchema>${配置表名}</inputSchema>
+							<forcedTypes>
+								<forcedType>
+									<userType>java.util.Date</userType>
+									<converter>cn.microservice.config.utils.DateConverter</converter>
+									<types>datetime</types>
+								</forcedType>
+								<forcedType>
+									<name>Boolean</name>
+									<types>tinyint</types>
+								</forcedType>
+							</forcedTypes>
+						</database>
+						<target>
+							自动生成的代码的位置
+							<packageName>cn.microservice.config.pojo.mysql</packageName>
+							<directory>src/main/java</directory>
+						</target>
+					</generator>
+				</configuration>
+			</plugin> -->
+		</plugins>
+	</build>
+</project>
